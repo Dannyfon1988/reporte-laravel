@@ -7,55 +7,131 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# 🧾 Reporte de Ventas en PHP con Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 📌 Descripción
+Este proyecto implementa un **reporte de ventas** utilizando **PHP** y el framework **Laravel**.  
+El sistema genera diferentes reportes basados en una base de datos de ejemplo con **clientes**, **productos** y **órdenes**.  
+Los reportes se presentan en tablas HTML generadas dinámicamente con **Eloquent ORM** y el **Query Builder** de Laravel.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ⚙️ Requisitos previos
 
-## Learning Laravel
+Asegúrate de tener instalado:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Tecnología | Versión recomendada | Comando para verificar |
+|-------------|---------------------|--------------------------|
+| PHP | 8.1 o superior | `php -v` |
+| Composer | 2.x | `composer -V` |
+| SQLite3 | Incluido en PHP | `sqlite3 --version` |
+| Node.js / npm (opcional) | 18+ | `node -v` / `npm -v` |
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🧱 Instalación del proyecto
 
-## Laravel Sponsors
+### 1️⃣ Clonar el repositorio
+```bash
+git clone https://github.com/Dannyfon1988/reporte-laravel.git
+cd reporte-laravel
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+2️⃣ Instalar dependencias
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+composer install
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3️⃣ Crear la base de datos SQLite
+touch database/database.sqlite
 
-## Code of Conduct
+4️⃣ Configurar el archivo .env
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Edita el archivo .env y configura la base de datos con tu ruta local:
 
-## Security Vulnerabilities
+DB_CONNECTION=sqlite
+DB_DATABASE=/home/tu_usuario/Escritorio/reporte-laravel/database/database.sqlite
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+Reemplaza tu_usuario por tu nombre real de usuario en Ubuntu.
+Puedes obtener la ruta exacta ejecutando pwd.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5️⃣ Ejecutar migraciones y seeders
+
+Esto crea las tablas (clients, products, orders) e inserta los datos de ejemplo:
+
+php artisan migrate:fresh --seed
+
+🚀 Ejecución de la aplicación
+
+Levanta el servidor de desarrollo de Laravel:
+
+php artisan serve
+
+
+Luego abre en tu navegador:
+👉 http://127.0.0.1:8000
+
+📊 Reportes disponibles
+Reporte	Descripción	URL
+🧮 Ventas por producto	Muestra cada producto con su cantidad total y valor total vendido.	/report/ventas-por-producto
+
+📺 Compras de televisores	Lista las compras del producto Televisor.	/report/televisores
+
+💰 Clientes con compras mayores a 10M	Clientes con total de compras > 10,000,000.	/report/clientes-mayores-10m
+
+📦 Total de productos ordenados	Suma total de unidades vendidas.	/report/total-productos
+🧩 Estructura del proyecto
+reporte-laravel/
+├── app/
+│   ├── Http/
+│   │   └── Controllers/
+│   │       └── ReportController.php
+│   └── Models/
+│       ├── Client.php
+│       ├── Product.php
+│       └── Order.php
+├── database/
+│   ├── database.sqlite
+│   ├── migrations/
+│   └── seeders/
+├── resources/
+│   └── views/
+│       └── report.blade.php
+├── routes/
+│   └── web.php
+└── .env
+
+✅ Resultado esperado
+
+Ejemplo de salida del reporte “Ventas por producto”:
+
+Producto	Referencia	Cantidad	Total
+Televisor	100-342	18	27.000.000
+Nevera	100-343	5	15.000.000
+Microondas	100-344	5	2.500.000
+🧠 Observaciones
+
+Se utilizó SQLite por simplicidad, sin necesidad de servidor MySQL.
+
+Los reportes usan agregaciones SQL (SUM, GROUP BY, HAVING) directamente desde el Query Builder.
+
+El diseño de las vistas se basa en HTML y CSS simple.
+
+Compatible con Laravel 10/11 y PHP 8.1+.
+
+✍️ Autor
+
+Nombre: Daniel Iván Gallo Charry
+Usuario GitHub: @Dannyfon1988
+
+Framework: Laravel
+Lenguaje: PHP
+Base de datos: SQLite
+Sistema Operativo: Ubuntu 24.04
+
+🧾 Licencia
+
+Este proyecto es de libre uso con fines educativos o de evaluación técnica.
+© 2025 Daniel Iván Gallo Charry
+
